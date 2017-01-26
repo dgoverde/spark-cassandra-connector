@@ -64,13 +64,6 @@ may also be used. ("127.0.0.1,192.168.0.1")
   <td>Minimum period of time to wait before reconnecting to a dead node</td>
 </tr>
 <tr>
-  <td><code>connection.session_interface</code></td>
-  <td>com.datastax.driver.core.Session</td>
-  <td>(Expert Use Only) The interface that the Session Proxy should use when connecting
-with Cassandra.
-      </td>
-</tr>
-<tr>
   <td><code>connection.timeout_ms</code></td>
   <td>5000</td>
   <td>Maximum period of time to attempt connecting to a node</td>
@@ -205,13 +198,6 @@ OSS Cassandra this should never be used.</td>
   <td><code>input.consistency.level</code></td>
   <td>LOCAL_ONE</td>
   <td>Consistency level to use when reading	</td>
-</tr>
-<tr>
-  <td><code>input.custom_table_scan_method</code></td>
-  <td>None</td>
-  <td>(Expert Use Only) Allows for an alternate method for executing statements
-against Cassandra.
-      </td>
 </tr>
 <tr>
   <td><code>input.fetch.size_in_rows</code></td>

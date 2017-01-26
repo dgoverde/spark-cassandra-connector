@@ -28,8 +28,7 @@ object ConfigCheck {
     CassandraConnectionFactory.Properties ++
     CassandraSQLContextParams.Properties ++
     CassandraSourceRelation.Properties ++
-    ColumnTypeConf.Properties ++
-    SessionProxy.Properties
+    ColumnTypeConf.Properties
 
   val validStaticPropertyNames = validStaticProperties.map(_.name)
 

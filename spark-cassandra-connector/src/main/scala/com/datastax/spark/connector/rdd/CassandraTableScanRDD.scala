@@ -349,19 +349,6 @@ class CassandraTableScanRDD[R] private[connector](
     }
   }
 
-  val customTableScanMethodOption = sc.getConf.getOption(ReadConf.CustomTableScanMethodParam.name)
-  private def getScanExecuteMethod(
-    session: Session,
-    columnNames: IndexedSeq[String]): Statement => (Iterator[Row], CassandraRowMetadata) =
-    customTableScanMethodOption match {
-      case Some(scanMethodName) => {
-        logDebug(s"Obtaining Custom Scan Method $scanMethodName")
-        val methodHolder = ReflectionUtil.findGlobalObject[CustomTableScanMethod](scanMethodName)
-        methodHolder.getScanMethod(readConf, session, columnNames)
-      }
-      case None => DefaultTableScanMethod.getScanMethod(readConf, session, columnNames)
-    }
-
   override def compute(split: Partition, context: TaskContext): Iterator[R] = {
     val session = connector.openSession()
     val partition = split.asInstanceOf[CassandraPartition[_, _]]
@@ -369,7 +356,7 @@ class CassandraTableScanRDD[R] private[connector](
     val metricsUpdater = InputMetricsUpdater(context, readConf)
 
     val columnNames = selectedColumnRefs.map(_.selectedAs).toIndexedSeq
-    val scanExecuteMethod = getScanExecuteMethod(session, columnNames)
+    val scanExecuteMethod = connector.connectionFactory.getScanMethod(readConf, session, columnNames)
 
     // Iterator flatMap trick flattens the iterator-of-iterator structure into a single iterator.
     // flatMap on iterator is lazy, therefore a query for the next token range is executed not earlier

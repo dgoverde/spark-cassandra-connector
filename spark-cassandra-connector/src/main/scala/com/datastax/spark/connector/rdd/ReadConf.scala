@@ -73,16 +73,6 @@ object ReadConf extends Logging {
       """Sets max requests per core per second for joinWithCassandraTable and some Enterprise integrations"""
   )
 
-  val CustomTableScanMethodParam = ConfigParameter[Option[String]] (
-    name = "spark.cassandra.input.custom_table_scan_method",
-    section = ReferenceSection,
-    default = None,
-    description =
-      """(Expert Use Only) Allows for an alternate method for executing statements
-        |against Cassandra.
-      """.stripMargin
-  )
-
   // Whitelist for allowed Read environment variables
   val Properties = Set(
     ConsistencyLevelParam,
@@ -90,8 +80,7 @@ object ReadConf extends Logging {
     ReadsPerSecParam,
     SplitSizeInMBParam,
     TaskMetricParam,
-    ThroughputJoinQueryPerSecParam,
-    CustomTableScanMethodParam
+    ThroughputJoinQueryPerSecParam
   )
 
   def fromSparkConf(conf: SparkConf): ReadConf = {
