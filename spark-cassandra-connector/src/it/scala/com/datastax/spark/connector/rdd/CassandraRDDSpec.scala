@@ -683,6 +683,11 @@ class CassandraRDDSpec extends SparkCassandraITFlatSpecBase {
     results should contain ((KeyGroup(3, 300), (3, 300, "0003")))
   }
 
+  it should "allow the use of PER PARTITION LIMITs " in {
+    val result = sc.cassandraTable(ks, "clustering_time").perPartitionLimit(1).collect
+    result.size should be (1)
+  }
+
   it should "allow to read Cassandra table as Array of KV tuples of a case class and a tuple grouped by partition key" in {
 
     conn.withSessionDo { session =>
